@@ -26,8 +26,35 @@ def encode(num, base):
     num -- the number in base 10
     base -- base to convert to
     """
-    assert 2 <= base <= 36
+
     # TODO: Encode number
+    remainder = num
+    largestIndex = None
+    number_position = {}
+
+    while (remainder != 0):
+        # Determine what power to raise the base to
+        power = int(math.floor(math.log(remainder, base)))
+
+        # Determine what number goes at the position of the power
+        indexNumber = int(math.floor(remainder / math.pow(base, power)))
+
+        number_position[power] = convertNumberToLetter(indexNumber)
+
+        remainder -= indexNumber * math.pow(base, power)
+
+        if (largestIndex is None):
+            largestIndex = power
+
+    str_num = ""
+    for i in reversed(range(0, largestIndex + 1)):
+        if (i in number_position):
+            str_num += str(number_position[i])
+        else:
+            str_num += "0"
+
+    return str_num
+
 
 def convert(str_num, base1, base2):
     """
@@ -58,6 +85,15 @@ def convertLetterToNumber(letter):
     distanceFromA = ord(letter.lower()) - 97
 
     return distanceFromA + 10
+
+def convertNumberToLetter(num):
+    if (num < 10):
+        return str(num)
+
+    #Offset by the characters that do exitst
+    amountOver9 = num - 10
+
+    return chr(amountOver9 + 97)
 
 def isNumber(str_num):
     try:
