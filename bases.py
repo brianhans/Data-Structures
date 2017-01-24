@@ -33,7 +33,6 @@ def encode(num, base):
     while (remainder != 0):
         # Determine what power to raise the base to
         power = int(math.floor(math.log(remainder, base)))
-
         # Determine what number goes at the position of the power
         indexNumber = int(math.floor(remainder / math.pow(base, power)))
 
@@ -59,9 +58,9 @@ def convert(str_num, base1, base2):
     Convert given number from base1 to base2.
     """
 
-    base10rep = encode(str_num, base1)
+    base10rep = decode(str_num, base1)
 
-    return decode(base10rep, base2)
+    return encode(base10rep, base2)
 
 
 
