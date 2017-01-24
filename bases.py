@@ -10,7 +10,6 @@ def decode(str_num, base):
     base -- base of given number
     """
 
-    # TODO: Decode number
     decimal = 0
     numbers = getIntList(str_num)
 
@@ -27,7 +26,6 @@ def encode(num, base):
     base -- base to convert to
     """
 
-    # TODO: Encode number
     remainder = num
     largestIndex = None
     number_position = {}
@@ -60,9 +58,11 @@ def convert(str_num, base1, base2):
     """
     Convert given number from base1 to base2.
     """
-    assert 2 <= base1 <= 36
-    assert 2 <= base2 <= 36
-    # TODO: Convert number
+
+    base10rep = encode(str_num, base1)
+
+    return decode(base10rep, base2)
+
 
 
 def getIntList(str_num):
