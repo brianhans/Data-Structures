@@ -1,7 +1,7 @@
 #!python
 
 import string
-
+import math
 
 def decode(str_num, base):
     """
@@ -9,8 +9,16 @@ def decode(str_num, base):
     str_num -- string representation of number in given base
     base -- base of given number
     """
-    assert 2 <= base <= 36
+
     # TODO: Decode number
+    decimal = 0
+    numbers = getIntList(str_num)
+
+    for i in range(0, len(numbers)):
+        decimal += numbers[i] * math.pow(base, len(numbers) - 1 - i)
+
+    return decimal
+
 
 def encode(num, base):
     """
@@ -29,6 +37,34 @@ def convert(str_num, base1, base2):
     assert 2 <= base2 <= 36
     # TODO: Convert number
 
+
+def getIntList(str_num):
+    if (isNumber(str_num)):
+        return [int(x) for x in str_num]
+
+    ints = []
+    for char in str_num:
+        if(isNumber(char)):
+            ints.append(int(char))
+        else:
+            ints.append(convertLetterToNumber(char))
+
+    return ints
+
+def convertLetterToNumber(letter):
+    if (not letter.isalpha() or len(letter) != 1):
+        raise ValueError
+
+    distanceFromA = ord(letter.lower()) - 97
+
+    return distanceFromA + 10
+
+def isNumber(str_num):
+    try:
+        int(str_num)
+        return True
+    except:
+        return False
 
 def main():
     import sys
