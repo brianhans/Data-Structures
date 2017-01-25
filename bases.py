@@ -14,7 +14,8 @@ def decode(str_num, base):
     numbers = getIntList(str_num)
 
     for i in range(0, len(numbers)):
-        decimal += numbers[i] * math.pow(base, len(numbers) - 1 - i)
+        power = len(numbers) - 1 - i
+        decimal += numbers[i] * math.pow(base, power)
 
     return decimal
 
@@ -34,11 +35,11 @@ def encode(num, base):
         # Determine what power to raise the base to
         power = int(math.floor(math.log(remainder, base)))
         # Determine what number goes at the position of the power
-        indexNumber = int(math.floor(remainder / math.pow(base, power)))
+        index_number = int(math.floor(remainder / math.pow(base, power)))
 
-        number_position[power] = convertNumberToLetter(indexNumber)
+        number_position[power] = convertNumberToLetter(index_number)
 
-        remainder -= indexNumber * math.pow(base, power)
+        remainder -= index_number * math.pow(base, power)
 
         if (largestIndex is None):
             largestIndex = power
@@ -51,6 +52,19 @@ def encode(num, base):
             str_num += "0"
 
     return str_num
+
+
+def efficient_encode(num, base):
+
+    remainder = num
+    encodedNum = ""
+
+    while remainder is not 0:
+        right_num = remainder % base
+        right_char = convertLetterToNumber(right_num)
+        encodedNum =  right_char + encodedNum
+
+    return encodedNum
 
 
 def convert(str_num, base1, base2):
