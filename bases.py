@@ -53,7 +53,7 @@ def encode(num, base):
 
     return str_num
 
-
+# TODO: Write more efficient encode and decode functions
 def efficient_encode(num, base):
 
     remainder = num
