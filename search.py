@@ -64,3 +64,22 @@ def binary_search_recursive(array, item, offset=0):
         return binary_search_recursive(array[middle:], item, offset + math.ceil(len(array) / 2))
     else:
         return binary_search_recursive(array[:middle], item, offset)
+
+def string_search(string, substring):
+    if (len(substring) > len(string)):
+        return -1
+
+
+    for i in range(0, len(string) - len(substring) + 1):
+
+        if(string[i] == substring[0]):
+            match = True
+            for j in range(1, len(substring)):
+                if(substring[j] != string[i + j]):
+                    match = False
+                    break
+
+            if match:
+                return i
+
+    return -1

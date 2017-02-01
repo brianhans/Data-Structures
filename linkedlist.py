@@ -18,6 +18,7 @@ class LinkedList(object):
         """Initialize this linked list and append the given items, if any"""
         self.head = None
         self.tail = None
+        self.node_count = 0
         if iterable:
             for item in iterable:
                 self.append(item)
@@ -39,14 +40,18 @@ class LinkedList(object):
         """Return True if this linked list is empty, or False otherwise"""
         return self.head is None
 
+    # def length(self):
+    #     """Return the length of this linked list by traversing its nodes"""
+    #     node_count = 0
+    #     current = self.head  # Start at the head node
+    #     while current is not None:
+    #         node_count += 1  # Count this node
+    #         current = current.next  # Skip to the next node
+    #     return node_count
+
     def length(self):
-        """Return the length of this linked list by traversing its nodes"""
-        node_count = 0
-        current = self.head  # Start at the head node
-        while current is not None:
-            node_count += 1  # Count this node
-            current = current.next  # Skip to the next node
-        return node_count
+        """Return the length of this linked list by keeping track of its nodes"""
+        return self.node_count
 
     def append(self, item):
         """Insert the given item at the tail of this linked list"""
@@ -59,6 +64,7 @@ class LinkedList(object):
             self.tail.next = new_node
         # Update tail node
         self.tail = new_node
+        self.node_count += 1
 
     def prepend(self, item):
         """Insert the given item at the head of this linked list"""
@@ -70,6 +76,8 @@ class LinkedList(object):
         # Check if list was empty
         if self.tail is None:
             self.tail = new_node
+        self.node_count += 1
+
 
     def delete(self, item):
         """Delete the given item from this linked list, or raise ValueError"""
@@ -85,6 +93,8 @@ class LinkedList(object):
                 current = current.next
         # Delete if found
         if found:
+            self.node_count -= 1
+
             if current is not self.head and current is not self.tail:
                 previous.next = current.next
                 current.next = None

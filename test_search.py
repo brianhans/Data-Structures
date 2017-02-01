@@ -1,6 +1,6 @@
 #!python
 
-from search import linear_search, binary_search
+from search import linear_search, binary_search, string_search
 import unittest
 
 
@@ -42,6 +42,23 @@ class TestSearch(unittest.TestCase):
         # binary search should return None for any item not in the list
         assert binary_search(names, 'Jeremy') is None
         assert binary_search(names, 'nobody') is None
+
+    def test_string_search(self):
+        string = 'thisisaverylongstringteststringthing'
+
+        assert string_search(string, 'is') is 2
+        assert string_search(string, 'Brian') is -1
+        assert string_search(string, 'stringthing') is 25
+        assert string_search(string, 'thisisaverylongstringteststringthingthisisaverylongstringteststringthing') is -1
+
+    def test_string_search_with_space(self):
+        string = 'this is a very long string test string thing'
+
+        assert string_search(string, 'is') is 2
+        assert string_search(string, 'Brian') is -1
+        assert string_search(string, 'string thing') is 32
+        assert string_search(string, 'thisisaverylongstringteststring thingthisisaverylongstringteststringthing') is -1
+
 
 
 if __name__ == '__main__':
