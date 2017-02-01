@@ -31,7 +31,10 @@ class Queue(object):
         return self.linked_list.head.data
 
     def enqueue(self, item):
-        """Enqueue the given item into this queue"""
+        """Enqueue the given item into this queue
+
+        Runtime: O(1)
+        """
         self.linked_list.append(item)
 
 
@@ -44,8 +47,7 @@ class Queue(object):
         item = self.linked_list.head
         self.linked_list.head = item.next
 
-        if item.next:
-            item.next = None
+        item.next = None
 
         self.linked_list.node_count -= 1
 
