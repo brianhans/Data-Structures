@@ -116,6 +116,14 @@ class LinkedList(object):
             current = current.next  # Skip to the next node
         return None
 
+    def __iter__(self):
+        current = self.head  # Start at the head node
+        while current is not None:
+            if condition(current.data):
+                yield current.data
+            current = current.next  # Skip to the next node
+        raise StopIteration
+
 
 if __name__ == '__main__':
     test_linked_list()
