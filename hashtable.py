@@ -78,6 +78,8 @@ class HashTable(object):
         else:
             self.buckets[index].append(KeyValuePair(key, value))
             self.count += 1
+            if self.count > len(self.buckets) * (2.0/3.0):
+                self.expand()
 
     def update_value(self, key, function):
         index = self._bucket_index(key)
@@ -155,5 +157,13 @@ class HashTable(object):
             for value in bucket.as_list():
                 yield value.value
 
+def create_hashtable(amount):
+    hash_table = HashTable()
+
+    for i in range(0, amount):
+        hash_table.set('test' + str(i), 'none')
+    return hash_table
+
 
 if __name__ == '__main__':
+    create_hashtable(100)
