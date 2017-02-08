@@ -7,7 +7,7 @@ class Node(object):
 
     def __repr__(self):
         """Return a string representation of this node"""
-        return '\nNode(data: {},left:{},right:{})'.format(repr(self.data), repr(self.left), repr(self.right))
+        return 'Node(data: {},left:{},right:{})'.format(repr(self.data), repr(self.left), repr(self.right))
 
 
 class BinaryTree(object):
@@ -87,7 +87,6 @@ class BinaryTree(object):
             else:
                 raise KeyError
         else:
-            print('root delete')
             #This means the root is the item being deleted
             temp_left = self.root.left
             temp_right = self.root.right
@@ -96,7 +95,8 @@ class BinaryTree(object):
                 self.root, parent = self.rightMostNodeOf(self.root.left)
                 parent.right = None
             else:
-                self.root = self.root.right
+                self.root, parent = self.leftMostNodeOf(self.root.right)
+                parent.left = None
 
             self.root.left = temp_left
             self.root.right = temp_right
@@ -111,17 +111,79 @@ class BinaryTree(object):
 
         return replacement_node, parent
 
-    def search(self, item, node=-1):
-        if node is -1:
+    def leftMostNodeOf(self, node):
+        parent = node
+        replacement_node = node
+        while replacement_node.left is not None:
+            parent = replacement_node
+            replacement_node = replacement_node.left
+
+        return replacement_node, parent
+
+    def search(self, item, node=None):
+        if node is None:
             node = self.root
 
-        if node is None or node.data is item:
+        if node.data is item:
             return node
 
         if item < node.data:
-            return self.search(item, node.left)
+            if node.left:
+                return self.search(item, node.left)
+            else:
+                raise KeyError
         else:
-            return self.search(item, node.right)
+            if node.right:
+                return self.search(item, node.right)
+            else:
+                raise KeyError
+
+    def in_order_traverse(self, node=None):
+        if node is None:
+            node = self.root
+
+        items = []
+
+        if node.left:
+            items.extend(self.in_order_traverse(node.left))
+
+        items.append(node.data)
+
+        if node.right:
+            items.extend(self.in_order_traverse(node.right))
+
+        return items
+
+    def post_order_traverse(self, node=None):
+        if node is None:
+            node = self.root
+
+        items = []
+
+        if node.left:
+            items.extend(self.post_order_traverse(node.left))
+        if node.right:
+            items.extend(self.post_order_traverse(node.right))
+
+        items.append(node.data)
+
+        return items
+
+
+    def pre_order_traverse(self, node=None):
+        if node is None:
+            node = self.root
+
+        items = []
+
+        items.append(node.data)
+
+        if node.left:
+            items.extend(self.pre_order_traverse(node.left))
+        if node.right:
+            items.extend(self.pre_order_traverse(node.right))
+
+        return items
 
     def __repr__(self):
         """Return a string representation of this node"""
