@@ -1,6 +1,7 @@
 class Node(object):
-    def __init__(self, data):
+    def __init__(self, key, data):
         """Initialize this node with the given data"""
+        self.key = key
         self.data = data
         self.left = None
         self.right = None
@@ -17,43 +18,45 @@ class BinaryTree(object):
         self.root = None
         self.node_count = 0
         if iterable:
-            for item in iterable:
-                self.insert(item)
+            for key, value in iterable:
+                self.insert(key, value)
 
-    def insert(self, item, node=None):
+    def insert(self, key, value, node=None):
         if node is None:
             node = self.root
         if self.root is None:
-            self.root = Node(item)
+            self.root = Node(key, value)
         else:
-            if item < node.data:
+            if key < node.key:
                 #Go left
                 if node.left:
-                    self.insert(item, node.left)
+                    self.insert(key, node.left)
                 else:
-                    node.left = Node(item)
-            elif item > node.data:
+                    node.left = Node(key, value)
+                    self.node_count += 1
+            elif key > node.key:
                 #Go right
                 if node.right:
-                    self.insert(item, node.right)
+                    self.insert(key, node.right)
                 else:
-                    node.right = Node(item)
+                    node.right = Node(key, value)
+                    self.node_count += 1
             else:
                 raise KeyError
 
-    def delete(self, item, node=None):
+    def delete(self, key, node=None):
         if node is None:
             node = self.root
             if self.root is None:
                 #Tree is empty
                 raise KeyError
 
-        if item < node.data:
+        if key < node.key:
             #Go left
             if node.left:
-                if node.left.data is item:
+                if node.left.key is key:
                     #Remove node.left if it is the item
-
+                    self.node_count -= 1
                     #Find the right most item in the left
                     if node.left.left:
                         temp_right = node.left.right
@@ -64,15 +67,15 @@ class BinaryTree(object):
                         node.left = node.left.right
                 else:
                     #Move to the lower node
-                    self.delete(item, node.left)
+                    self.delete(key, node.left)
             else:
                 raise KeyError
-        elif item > node.data:
+        elif key > node.key:
             #If item is greater than the value of current item go right
             if node.right:
-                if node.right.data is item:
+                if node.right.key is key:
                     #Remove node.right if it is the item
-
+                    self.node_count -= 1
                     #Find the right most item in the left
                     if node.right.left:
                         temp_right = node.right.right
@@ -83,7 +86,7 @@ class BinaryTree(object):
                         node.right = node.right.right
                 else:
                     #Move to the higher node
-                    self.delete(item, node.right)
+                    self.delete(key, node.right)
             else:
                 raise KeyError
         else:
@@ -100,6 +103,7 @@ class BinaryTree(object):
 
             self.root.left = temp_left
             self.root.right = temp_right
+            self.node_count -= 1
 
 
     def rightMostNodeOf(self, node):
@@ -120,23 +124,26 @@ class BinaryTree(object):
 
         return replacement_node, parent
 
-    def search(self, item, node=None):
+    def search(self, key, node=None):
         if node is None:
             node = self.root
 
-        if node.data is item:
-            return node
+        if node.key is key:
+            return node.value
 
-        if item < node.data:
+        if key < node.key:
             if node.left:
-                return self.search(item, node.left)
+                return self.search(key, node.left)
             else:
                 raise KeyError
         else:
             if node.right:
-                return self.search(item, node.right)
+                return self.search(key, node.right)
             else:
                 raise KeyError
+
+    def length(self):
+        return self.node_count
 
     def in_order_traverse(self, node=None):
         if node is None:
@@ -147,7 +154,7 @@ class BinaryTree(object):
         if node.left:
             items.extend(self.in_order_traverse(node.left))
 
-        items.append(node.data)
+        items.append(node.value)
 
         if node.right:
             items.extend(self.in_order_traverse(node.right))
@@ -165,7 +172,7 @@ class BinaryTree(object):
         if node.right:
             items.extend(self.post_order_traverse(node.right))
 
-        items.append(node.data)
+        items.append(node.value)
 
         return items
 
@@ -176,7 +183,7 @@ class BinaryTree(object):
 
         items = []
 
-        items.append(node.data)
+        items.append(node.value)
 
         if node.left:
             items.extend(self.pre_order_traverse(node.left))
@@ -184,6 +191,11 @@ class BinaryTree(object):
             items.extend(self.pre_order_traverse(node.right))
 
         return items
+
+    def __iter__(self):
+        
+
+
 
     def __repr__(self):
         """Return a string representation of this node"""

@@ -1,6 +1,7 @@
 #!python
 
 from linkedlist import LinkedList
+from tree import BinaryTree
 
 class KeyValuePair:
         def __init__(self, key, value):
@@ -156,6 +157,46 @@ class HashTable(object):
         for bucket in self.buckets:
             for value in bucket.as_list():
                 yield value.value
+
+
+class BinaryHashTable(object):
+
+    def __init__(self):
+        self.tree = BinaryTree()
+
+    def __repr__(self):
+        """Return a string representation of this hash table"""
+        return 'HashTable({})'.format(self.length())
+
+    def length(self):
+        return self.tree.length()
+
+    def contains(self, key):
+        try:
+            self.tree.search(hash(key))
+            return True
+        except KeyError:
+            return False
+
+    def get(self, key):
+        return self.tree.search(hash(key))
+
+    def set(self, key, value):
+        self.tree.insert(hash(key), value)
+
+    def delete(self, key):
+        self.tree.delete(hash(key))
+
+    def clear(self):
+        self.tree.root = None
+
+    def keys(self):
+        return [x.key for x in self.tree]
+
+    def values(self):
+        return [x.value for x in self.tree]
+
+
 
 def create_hashtable(amount):
     hash_table = HashTable()
