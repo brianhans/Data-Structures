@@ -70,3 +70,21 @@ class TestSort(unittest.TestCase):
         numbers = [-1]
         numbers = bucket_sort(numbers, 5)
         assert numbers == [-1]
+
+
+    def test_counting_sort(self):
+        numbers = [1, 20, 74, 35, 16, 100, 2]
+        numbers = counting_sort(numbers)
+        assert numbers == [1, 2, 16, 20, 35, 74, 100]
+
+        numbers = [5, 4, 3, 2, 1, 0, -1]
+        numbers = counting_sort(numbers)
+        assert numbers == [-1, 0, 1, 2, 3, 4, 5]
+
+        numbers = []
+        numbers = counting_sort(numbers)
+        assert numbers == []
+
+        numbers = [-1]
+        numbers = counting_sort(numbers)
+        assert numbers == [-1]

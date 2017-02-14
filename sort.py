@@ -37,7 +37,7 @@ def insertion_sort(arr):
 def bucket_sort(arr, num = 5):
     if len(arr) <= 1:
         return arr
-    
+
     buckets = []
     for i in range(num):
         buckets.append([])
@@ -62,5 +62,30 @@ def bucket_sort(arr, num = 5):
     for bucket in buckets:
         bubble_sort(bucket)
         sorted_array.extend(bucket)
+
+    return sorted_array
+
+def counting_sort(arr):
+    histogram = []
+    #Find the highest and lowest numbers in the array
+    largest = arr[0]
+    lowest = arr[0]
+    for i in range(len(arr)):
+        if arr[i] > largest:
+            largest = arr[i]
+        elif arr[i] < lowest:
+            lowest = arr[i]
+
+    for i in range(largest - lowest):
+        histogram.append(0)
+
+    for i in arr:
+        histogram[i] += 1
+
+    sorted_array = []
+
+    for i in range(histogram):
+        for _ in range(histogram[i]):
+            sorted_array.append(i + lowest)
 
     return sorted_array
