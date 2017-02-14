@@ -1,4 +1,4 @@
-from sort import bubble_sort, selection_sort, insertion_sort, bucket_sort
+from sort import bubble_sort, selection_sort, insertion_sort, bucket_sort, counting_sort
 import unittest
 
 

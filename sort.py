@@ -66,6 +66,9 @@ def bucket_sort(arr, num = 5):
     return sorted_array
 
 def counting_sort(arr):
+    if len(arr) <= 1:
+        return arr
+
     histogram = []
     #Find the highest and lowest numbers in the array
     largest = arr[0]
@@ -76,15 +79,15 @@ def counting_sort(arr):
         elif arr[i] < lowest:
             lowest = arr[i]
 
-    for i in range(largest - lowest):
+    for i in range(largest - lowest + 1):
         histogram.append(0)
 
     for i in arr:
-        histogram[i] += 1
+        histogram[i - 1] += 1
 
     sorted_array = []
 
-    for i in range(histogram):
+    for i in range(len(histogram)):
         for _ in range(histogram[i]):
             sorted_array.append(i + lowest)
 
