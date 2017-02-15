@@ -1,4 +1,5 @@
 import math
+from trees import BinaryTree
 
 def bubble_sort(arr):
     swapped = True
@@ -128,3 +129,7 @@ def merge_arrays(left_array, right_array):
                 right_pointer += 1
 
     return new_array
+
+def tree_sort(arr):
+    bst = BinaryTree(arr)
+    return bst.in_order_traverse()
