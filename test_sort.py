@@ -1,4 +1,4 @@
-from sort import bubble_sort, selection_sort, insertion_sort, bucket_sort, counting_sort
+from sort import bubble_sort, selection_sort, insertion_sort, bucket_sort, counting_sort, merge_sort
 import unittest
 
 
@@ -87,4 +87,21 @@ class TestSort(unittest.TestCase):
 
         numbers = [-1]
         numbers = counting_sort(numbers)
+        assert numbers == [-1]
+
+    def test_merge_sort(self):
+        numbers = [1, 20, 74, 35, 16, 100, 2]
+        numbers = merge_sort(numbers)
+        assert numbers == [1, 2, 16, 20, 35, 74, 100]
+
+        numbers = [5, 4, 3, 2, 1, 0, -1]
+        numbers = merge_sort(numbers)
+        assert numbers == [-1, 0, 1, 2, 3, 4, 5]
+
+        numbers = []
+        numbers = merge_sort(numbers)
+        assert numbers == []
+
+        numbers = [-1]
+        numbers = merge_sort(numbers)
         assert numbers == [-1]

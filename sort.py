@@ -92,3 +92,39 @@ def counting_sort(arr):
             sorted_array.append(i + lowest)
 
     return sorted_array
+
+def merge_sort(arr):
+
+    right_position = len(arr) / 2
+    left = arr[:right_position]
+    right = arr[right_position:]
+
+    if (len(left) > 2 or len(right) > 2):
+        left_array = merge_sort(left)
+        right_array = merge_sort(right)
+    else:
+        left_array = bubble_sort(left)
+        right_array = bubble_sort(right)
+
+    return merge_arrays(left_array, right_array)
+
+def merge_arrays(left_array, right_array):
+    new_array = []
+    left_pointer = 0
+    right_pointer = 0
+    for _ in range(len(left_array) + len(right_array)):
+        if left_pointer >= len(left_array):
+            new_array.extend(right_array[right_pointer:])
+            break
+        elif right_pointer >= len(right_array):
+            new_array.extend(left_array[left_pointer:])
+            break
+        else:
+            if left_array[left_pointer] < right_array[right_pointer]:
+                new_array.append(left_array[left_pointer])
+                left_pointer += 1
+            else:
+                new_array.append(right_array[right_pointer])
+                right_pointer += 1
+
+    return new_array
