@@ -97,15 +97,12 @@ def counting_sort(arr):
 def merge_sort(arr):
 
     right_position = len(arr) / 2
-    left = arr[:right_position]
-    right = arr[right_position:]
+    left_array = arr[:right_position]
+    right_array = arr[right_position:]
 
-    if (len(left) > 2 or len(right) > 2):
-        left_array = merge_sort(left)
-        right_array = merge_sort(right)
-    else:
-        left_array = bubble_sort(left)
-        right_array = bubble_sort(right)
+    if (len(left_array) > 1 or len(right_array) > 1):
+        left_array = merge_sort(left_array)
+        right_array = merge_sort(right_array)
 
     return merge_arrays(left_array, right_array)
 
@@ -113,23 +110,46 @@ def merge_arrays(left_array, right_array):
     new_array = []
     left_pointer = 0
     right_pointer = 0
-    for _ in range(len(left_array) + len(right_array)):
-        if left_pointer >= len(left_array):
-            new_array.extend(right_array[right_pointer:])
-            break
-        elif right_pointer >= len(right_array):
-            new_array.extend(left_array[left_pointer:])
-            break
+
+    left_length = len(left_array)
+    right_length = len(right_array)
+
+    while left_pointer < left_length and right_pointer < right_length:
+        if left_array[left_pointer] < right_array[right_pointer]:
+            new_array.append(left_array[left_pointer])
+            left_pointer += 1
         else:
-            if left_array[left_pointer] < right_array[right_pointer]:
-                new_array.append(left_array[left_pointer])
-                left_pointer += 1
-            else:
-                new_array.append(right_array[right_pointer])
-                right_pointer += 1
+            new_array.append(right_array[right_pointer])
+            right_pointer += 1
+
+    if left_pointer >= left_length:
+        new_array.extend(right_array[right_pointer:])
+    elif right_pointer >= right_length:
+        new_array.extend(left_array[left_pointer:])
 
     return new_array
 
 def tree_sort(arr):
     bst = BinaryTree(arr)
     return bst.in_order_traverse()
+
+def quick_sort(arr, start = 0, end = None):
+    if end is None:
+        end = len(arr) - 1
+
+    if end - start < 1:
+        return
+
+    swap_index = start
+    pivot = end
+
+
+    for i in range(start, end):
+        if arr[i] < arr[pivot]:
+            arr[swap_index], arr[i] = arr[i], arr[swap_index]
+            swap_index += 1
+
+    arr[swap_index], arr[pivot] = arr[pivot], arr[swap_index]
+
+    quick_sort(arr, start, swap_index - 1)
+    quick_sort(arr, swap_index + 1, end)
