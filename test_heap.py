@@ -72,6 +72,7 @@ class TestMinHeap(unittest.TestCase):
         items = random.sample(range(1000), 50)
         for item in items:
             heap.insert(item)
+
         assert heap.size() == len(items)
         sorted_items = sorted(items)
         for index, item in enumerate(sorted_items):

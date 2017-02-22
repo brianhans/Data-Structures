@@ -74,6 +74,7 @@ class MinHeap(object):
     def _bubble_up(self, index):
         """Ensure the heap-ordering property is true above the given index,
         swapping out of order items, or until the root node is reached"""
+
         if index == 0:
             return  # This index is the root node
         if not (0 <= index <= self._last_index()):
@@ -82,6 +83,12 @@ class MinHeap(object):
         # TODO: Swap this item with parent item if values are out of order
         parent_index = self._parent_index(index)
         parent_item = self.items[parent_index]
+
+        if parent_item > item:
+            self.items[parent_index], self.items[index] = item, parent_item
+            self._bubble_up(parent_index)
+
+
         # ...
         # TODO: Then bubble up again if necessary
         # ...
@@ -98,9 +105,22 @@ class MinHeap(object):
         item = self.items[index]
         # TODO: Determine which child item to compare this node's item to
         child_index = 0
+
+        if right_index > self._last_index() or self.items[left_index] < self.items[right_index]:
+            child_index = left_index
+        else:
+            child_index = right_index
+
         # ...
         # TODO: Swap this item with a child item if values are out of order
         child_item = self.items[child_index]
+        if child_item < item:
+            self.items[child_index], self.items[index] = item, child_item
+
+        self._bubble_down(child_index)
+
+
+
         # ...
         # TODO: Then bubble down again if necessary
         # ...
